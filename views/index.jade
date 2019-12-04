@@ -1,0 +1,60 @@
+extends layout
+
+block content
+	include alerts
+	div.contenedor.bg-light.rounded-lg.border-bottom.border-top.border-light.mb-3
+		include add
+	section.c-95
+		include header
+		article.item
+			-if(data!="")
+				//- -console.log("entro"+data)
+				table.table.table-striped
+					tr.row
+						th.col-1(scope="col") Id
+						th.col-2(scope="col") N° de acuerdo
+						th.col-2(scope="col") Fecha
+						th.col-5(scope="col") Detalle
+						th.col-2(scope="col", colspan="2",style="display:block")
+							div.input-group
+								input#add.btn.btn-block.btn-success(onclick="A_C('agregar')",type="button", value="Agregar", title="Agregar acuerdos")
+					//-var cont=0
+					-each ac in data
+						// -console.log()
+						tr.row
+							th.col-1.text-truncate.text-12(scope="row") #{ac.acuerdo_id}
+							td.col-2 #{ac.nro_acuerdo}
+							td.col-2 #{ac.fecha}
+							td.col-5
+								article.w-100.h-100.textarea(disabled).bg-transparent
+									p #{ac.detalle}
+							td.col-2(style="display:block")
+								form(method="GET" action="/editar/#{ac._id}")
+									input.button.btn.btn-info.btn-block(type="submit", value="Editar",  title="Editar el acuerdo")
+								form(method="POST" action="/eliminar/#{ac._id}")
+									//- div.D(style="display: #{disables}")
+									input.disable.button.btn.btn-danger.btn-block(disabled, type="button", onclick="eliminar(this)", value="Eliminar", title="Eliminar el acuerdo")
+									input.item.i-b.v-top.ph9.p_25(id="acuerdo_id", type="hidden", value='#{ac.acuerdo_id}' name="acuerdo_id")
+									input(type="hidden", name="_method", value="DELETE")
+				div.text-center
+					include pagination
+						//- // -cont++
+			- else
+				table.table.table-striped
+						tr
+							th(scope="col") Id
+							th(scope="col") N° de acuerdo
+							th(scope="col") Fecha
+							th(scope="col") Detalle
+							th(scope="col", colspan="2")
+								div.input-group
+								input#add.btn.btn-block.btn-success(onclick="A_C('agregar')",type="button", value="Agregar", title="Agregar acuerdos")
+							tr
+								th.no_selection.text-black-50(scope="row") Sin informacion
+								td.no_selection.text-black-50 Sin informacion
+								td.no_selection.text-black-50 Sin informacion
+								td.no_selection.text-black-50 Sin informacion 
+								td.no_selection
+				a#btnsync.button.btn.btn-info.btn-block(href="/C_R:Syncfirebase") Sincronizar con la nube
+								
+	include footer

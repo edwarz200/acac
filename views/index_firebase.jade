@@ -1,0 +1,51 @@
+extends layout
+
+block content
+	section.c-95
+		include alerts
+		include header
+		article.item
+			-if(data!="")
+				//- -console.log("entro"+data)
+				table.table.table-striped
+					tr.row
+						th.col-2(scope="col") Id
+						th.col-2(scope="col") N° de acuerdo
+						th.col-2(scope="col") Fecha
+						th.col-6(scope="col") Detalle
+					//-var cont=0
+					-each ac in data
+						// -console.log()
+						tr.row
+							th.col-2.text-truncate.text-12(scope="row") #{ac.acuerdo_id}
+							td.col-2 #{ac.nro_acuerdo}
+							td.col-2 #{ac.fecha}
+							td.col-6
+								article.w-100.h-100.textarea(disabled).bg-transparent
+									p #{ac.detalle}
+						//- // -cont++
+						
+				script.
+					function eliminar(input)
+					{
+						var deleteOk = confirm('¿Estás seguro de eliminar este acuerdo?')
+						return (deleteOk) ? input.parentNode.submit() : false
+					}
+			-else
+				table.table.table-striped
+						tr
+							th(scope="col") Id
+							th(scope="col") N° de acuerdo
+							th(scope="col") Fecha
+							th(scope="col") Detalle
+							th(scope="col", colspan="2")
+								div.input-group
+									include add_cant
+							tr
+								th.no_selection.text-black-50(scope="row") Sin informacion
+								td.no_selection.text-black-50 Sin informacion
+								td.no_selection.text-black-50 Sin informacion
+								td.no_selection.text-black-50 Sin informacion 
+								td.no_selection
+								
+	include footer

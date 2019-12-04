@@ -1,0 +1,33 @@
+h1.text-center
+	a=	title2
+div.container.center
+	div.input-group.mb-3
+		form.form.w-100(method="POST" action="/save")
+			div.input-group.mb-3
+				div.input-group-prepend
+					span#basic-addon1.input-group-text(for="acuerdo_id") Id:
+				input.form-control(id="acuerdo_id#{i}" type="text", name="acuerdo_id",value='#{data_id}', disabled)
+				input.item.i-b.v-top.ph9.p_25(id="acuerdo_id#{i}", type="hidden", value='#{data_id}' name="acuerdo_id")
+			div.input-group.mb-3
+				div.input-group-prepend
+					span#basic-addon1.input-group-text(for="nro_acuerdo") Numero de acuerdo:
+				input.form-control(id="nro_acuerdo#{i}" type="text", name="nro_acuerdo", placeholder="Numero de acuerdo" required)
+			div.input-group.mb-3
+				div.input-group-prepend
+					span#basic-addon1.input-group-text(for="fecha") Fecha:
+				input.form-control(id="fecha#{i}" type="date", name="fecha", placeholder="dia")
+			div.input-group.mb-3
+				.input-group-prepend
+					span.input-group-text(for="detalle") Detalle:
+				//- input.item.i-b.v-top.ph9.p_25#detalle(type="textarea", name="detalle", required)
+				textarea.txtadd.form-control(id="detalle#{i}", name="detalle", maxlength="255", aria-label="Detalle:" required)
+				//- a.btn.btn-danger.btn-lg( href="/") cancelar
+			div.text-center.mb-3
+					//- // span#spansucces(hidden)= dataenv
+				//- input.btn.btn-success.btn-lg.add.mr-md-3( hidden class="submit#{i}" type="submit", value="Agregar#{i}")
+			div.text-center.mb-3
+				input.btn.btn-success.btn-lg.add.mr-md-3(type="submit", value="Agregar")
+				//- input.btn.btn-success.btn-lg.add.mr-md-3(type="button", value="Agregar" onclick="onsub(#{nums})")
+				a.btn.btn-danger.btn-lg.text-white(id="a" onclick="A_C('cancelar')") Cancelar
+			//- // -}
+//- include footer

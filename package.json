@@ -1,0 +1,41 @@
+{
+    "name": "api-rest-mysql",
+    "version": "0.0.1",
+    "description": "Api REST MVC co MySql, Express y Node.js",
+    "main": "server.js",
+    "dependencies": {
+        "algoliasearch": "^3.35.1",
+        "body-parser": "^1.19.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-handlebars": "^3.1.0",
+        "express-method-override": "0.0.3",
+        "firebase-admin": "^8.6.1",
+        "formidable": "^1.2.1",
+        "fs-extra": "^8.1.0",
+        "jade": "^1.11.0",
+        "lokijs": "^1.5.8",
+        "mongoose": "^5.7.7",
+        "morgan": "^1.9.1",
+        "popper.js": "^1.16.0",
+        "request": "^2.88.0",
+        "serve-favicon": "^2.5.0",
+        "xlsx": "^0.15.2"
+    },
+    "devDependencies": {
+        "@types/algoliasearch": "^3.34.5"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "forever start server.js"
+    },
+    "keywords": [
+        "API",
+        "CRUD",
+        "REST",
+        "MVC",
+        "MySQL"
+    ],
+    "author": "Edward",
+    "license": "MIT"
+}

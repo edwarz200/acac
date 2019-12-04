@@ -1,0 +1,35 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
+  a.navbar-brand(href='#') RAM
+  button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+    span.navbar-toggler-icon
+  #navbarSupportedContent.collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item
+        a.nav-link.text-light(href='/')
+          | Inicio 
+      li.nav-item
+        a.nav-link.text-light(href='/search/SR:') Buscar
+      li.nav-item
+        a.nav-link.text-light.Ag(href='/S_U_E:agregar', hidden) Agregar
+      li.nav-item
+        div.input-group-prepend
+          select.dropdown.btn.btn-secondary.dropdown-toggle.selectE(title="Opciones para eliminar", name="S_E", id="S_E")
+            option.dropdown-item.text-light(value="Deshabilitar") Deshabilitado para eliminar
+            option.dropdown-item.text-light(value="Habilitar") Habilitar eliminar
+            option.dropdown-item.text-light(value="Varios") Eliminar Varios
+      input#disables(type="hidden",value="#{disables}")
+      input#op(type="hidden",value="#{op}")
+      input#nums(type="hidden", value="#{nums}")
+      input#searchlista(type="hidden",value="#{input}")
+      input#syncInput(type="hidden",value="#{sync}")
+      input#buttons(type="hidden",value="#{buttons}")
+      input#cont(type="hidden",value="#{cont}")
+    select.dropdown.btn.btn-secondary.dropdown-toggle.float-left(title="Servidor local", name="C_R", id="C_R",)
+          option.dropdown-item.text-white(value="#") Opciones adicionales
+          option.dropdown-item.text-white(value="Syncfirebase") Sincronizar con firebase
+          option.dropdown-item.text-white(value="Firebase") Ver datos de la nube 
+          option.dropdown-item.text-white(value="xlsx") Copia de seguridad de la base de datos
+          option.dropdown-item.text-light.bg-secondary(value="", disabled) Servidor
+          option.dropdown-item.text-white(value="Restart") Reiniciar Servidor
+          option.dropdown-item.text-white(value="Close") Cerrar servidor
+div.d-none

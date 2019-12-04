@@ -1,0 +1,65 @@
+extends layout
+block content
+    section.container
+        include header
+            div.input-group.mb-3
+                div.input-group-prepend
+                    select#List_search.dropdown.btn.btn-primary.dropdown-toggle(required)
+                        option.dropdown-item.text-light(value="Todo") Por defecto
+                        option.dropdown-item.text-light(value="Palabra") Palabra
+                        option.dropdown-item.text-light(value="Numero de acuerdo") Numero de acuerdo
+                        option.dropdown-item.text-light(value="Fecha del acuerdo") Fecha del acuerdo
+                input#inputSearch.form-control.sm-4(type='text', placeholder='Buscar', data-toggle="tooltip", data-placement="top", title="", aria-label='Search', onkeyup="this.value=Numeros(this.value)", value="#{search}")
+                div.input-group-append
+                    a.btn.btn-primary.my-2.my-sm-0(type='button', onclick="on('/search/SR:')" )
+                        img#div_search_icon(src="/img/busqueda.png")
+            div#span_fecha.span2
+                include alerts
+    section.c-95
+        article.item
+            -if(data!="")
+                //- -console.log("entro"+data)
+                table.table.table-striped
+                    tr.row
+                        th.col-1(scope="col") Id
+                        th.col-2(scope="col") N° de acuerdo
+                        th.col-2(scope="col") Fecha
+                        th.col-5(scope="col") Detalle
+                        th.col-2(scope="col", colspan="2",style="display:block")
+                            div.input-group
+                                a.btn.btn-block.btn-success(href="/S_U_E:agregar", title="Agregar acuerdos") Agregar
+                    //-var cont=0
+                    -each ac in data
+                        // -console.log()
+                        tr.row
+                            th.col-1.text-truncate.text-12(scope="row") #{ac.acuerdo_id}
+                            td.col-2 #{ac.nro_acuerdo}
+                            td.col-2 #{ac.fecha}
+                            td.col-5
+                                article.w-100.h-100.textarea(disabled).bg-transparent
+                                    p #{ac.detalle}
+                            td.col-2(style="display:block")
+                                form(method="GET" action="/editar/#{ac._id}")
+                                    input.button.btn.btn-info.btn-block(type="submit", value="Editar",  title="Editar el acuerdo")
+                                form(method="POST" action="/eliminar/#{ac._id}")
+                                    //- div.D(style="display: #{disables}")
+                                    input.disable.button.btn.btn-danger.btn-block(type="button", onclick="eliminar(this)", value="Eliminar", title="Eliminar el acuerdo")
+                                    input.item.i-b.v-top.ph9.p_25(id="acuerdo_id", type="hidden", value='#{ac.acuerdo_id}' name="acuerdo_id")
+                                    input(type="hidden", name="_method", value="DELETE")
+                        //- // -cont++
+            -else
+                -console.log(image1)
+                table.table.table-striped
+                        tr
+                            th(scope="col") Id
+                            th(scope="col") N° de acuerdo
+                            th(scope="col") Fecha
+                            th(scope="col") Detalle
+                            th(scope="col", colspan="2")
+                                div.input-group
+                                a.btn.btn-block.btn-success(href="/S_U_E:agregar", title="Agregar acuerdos") Agregar
+
+                div.container.text-center
+                    p.text-black-50= txt1
+                    img.img-fluid.w-25(src="#{image1}",alt="Responsive image", id="imagen1")
+    include footer

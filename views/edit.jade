@@ -1,0 +1,31 @@
+extends layout
+
+block content
+	div.mb-3
+	section.container
+		include header
+		div.item
+			form.form(method="POST" action="/actualizar/#{data._id}")
+				fieldsetdiv.input-group.mb-3
+						div.input-group-prepend
+							span#basic-addon1.input-group-text(for="acuerdo_id") Id:
+						input#acuerdo_id.form-control(type="text", name="acuerdo_id",value='#{data.acuerdo_id}', disabled)
+						input.item.i-b.v-top.ph9.p_25#acuerdo_id(type="hidden", value='#{data.acuerdo_id}' name="acuerdo_id")
+					div.input-group.mb-3
+						div.input-group-prepend
+							span#basic-addon1.input-group-text(for="nro_acuerdo") Numero de acuerdo:
+						input#nro_acuerdo.form-control(type="text", name="nro_acuerdo", value="#{data.nro_acuerdo}" placeholder="Numero de acuerdo" required)
+					div.input-group.mb-3
+						div.input-group-prepend
+							span#basic-addon1.input-group-text(for="fecha") Fecha:
+						input#fecha.form-control(type="date", name="fecha", value="#{data.fecha}" placeholder="fecha")
+					div.input-group.mb-3
+						.input-group-prepend
+							span.input-group-text(for="detalle") Detalle:
+						//- input.item.i-b.v-top.ph9.p_25#detalle(type="textarea", name="detalle", required)
+						textarea#content.txtedit.form-control.bg-transparent(name="detalle", maxlength="600", aria-label="Detalle:" required)= data.detalle
+				div.text-center
+					input.btn.btn-success.btn-lg.add.mr-md-3(type="submit", value="Editar")
+					input(type="hidden", name="_method", value="PUT")
+					a.btn.btn-danger.btn-lg(href="/") cancelar
+	include footer

@@ -1,0 +1,1 @@
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\USUARIO\Documents\jj\BD_Acuerdos_Municipales\models\ramdb-9ae8d-firebase-adminsdk-9gii2-393ba3be57.json"
