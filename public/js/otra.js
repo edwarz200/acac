@@ -51,13 +51,6 @@ function on(h) {
     location.href = h + listaAdd.value + sORa;
 }
 
-
-$("#inputSearch").keypress(function(event) {
-    if (event.which == 13) {
-        on('/search/SR:')
-    }
-});
-
 function eliminar(input) {
     var deleteOk = confirm('¿Estás seguro de eliminar este acuerdo?')
     return (deleteOk) ? input.parentNode.submit() : false
@@ -127,3 +120,34 @@ function myfun(h_d, h, e, s, b, c, elim_d) {
     if (List_search != null)
         List_search.options.item(selectS).setAttribute('selected', false)
 }
+
+// jquery
+
+$(".custom-file-input").on("change", function(e) {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    console.log($(this).siblings(".custom-file-label").addClass("selected").html(fileName))
+
+    var TmpPath = URL.createObjectURL(e.target.files[0]);
+    $('#Name_File').attr('value', fileName)
+    $('#path').attr('value', TmpPath)
+    
+    // var reader = new FileReader();
+    // reader.readAsArrayBuffer(e.target.files[0]);
+    // console.log(reader)
+    // reader.onload = function(e) {
+    //     var data = new Uint8Array(reader.result);
+    //     var wb = XLSX.read(data,{type:'array'});
+    //     for(var i=0;i<wb.SheetNames.length;i++){
+    //         var htmlstr = XLSX.write(wb,{sheet: wb.SheetNames[i],type:'binary',bookType:'html'});
+    //         $('#pre_image')[0].innerHTML += htmlstr;
+    //     }
+    // }
+
+});
+
+$("#inputSearch").keypress(function(event) {
+    if (event.which == 13) {
+        on('/search/SR:')
+    }
+});

@@ -228,7 +228,7 @@ ACController.close_reset_sync = (req, res, next) => {
         num = 2
     } else if (closeORreset == ":SyncMongo") {
         num = 2
-    } else if (closeORreset == ":copia_seg") {
+    } else if (closeORreset == ":xlsx") {
         num = 3
     }
     if (num == 3) {
