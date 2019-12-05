@@ -72,6 +72,23 @@ ACController.formxlsx = (req, res, next) => {
     res.render("Copiar_guardar", { op: 'elim_d' })
 }
 
+ACController.xls_CandS = (req, res, next) => {
+    let Name = req.body.Name_File,
+        path = req.body.path
+        // a_path = path.split("/")
+    // path = a_path[a_path.length - 1]
+    
+    ACModel.cccc(path, Name,(err)=>{
+        if(err){
+            console.log(err) 
+        }else{
+            console.log('El archivo  se subió con éxito :)')
+            console.log(ACModel.Converter_xlsx_json(path))
+        }
+    })
+    res.render("Copiar_guardar", { op: 'elim_d' })
+}
+
 ACController.getAll = (req, res, next) => {
     var letras_a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],

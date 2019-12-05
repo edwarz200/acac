@@ -3,15 +3,15 @@ extends layout
 block content
     div.mb-3
     section.container
-        form.mb-3(action="/xlsx/upload" enctype="multipart/form-data" method="post")
+        form.mb-3(action="/xlsx/upload" method="post")
             h1 Subir datos desde excel
             div(class="input-group")
                 div(class="custom-file")
                     input(type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" name="upload" required)
+                    input(type="text" id="Name_File" name="Name_File" value="" hidden)
+                    input(type="text" id="path" name="path" value="" hidden)
                     label(class="custom-file-label" for="inputGroupFile04") Selecciona un archivo
                 div(class="input-group-append")
-                    input(type="hidden" id="Name_File" name="Name_File" value="")
-                    input(type="hidden" id="path" name="path" value="")
                     input(class="btn btn-outline-secondary" type="submit" )
         div.container
             div(class="card")

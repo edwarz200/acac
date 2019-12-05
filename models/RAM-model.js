@@ -15,13 +15,13 @@ var conn = require('./RAM-connection'),
 
 ACModel.cccc = (archivo, xlsx, cb) => {
     //Ubicación temporal del archivo que se sube
-    let tempPath = archivo,
+    let tempPath = '"'+ archivo + '"',
         // El nombre del archivo subido
         fileName = xlsx,
         // Nueva ubicación
         newLocation = './uploads/' + fileName
 
-    fse.copy(tempPath, newLocation, cb)
+    fse.copy(archivo, newLocation, cb)
 }
 
 ACModel.Converter_xlsx_json = (libro) => {
