@@ -127,7 +127,9 @@ $(".custom-file-input").on("change", function(e) {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     console.log($(this).siblings(".custom-file-label").addClass("selected").html(fileName))
-
+        //Ubicación temporal del archivo que se sube
+    let tempPath = $(this).val()
+    console.log(tempPath)
     var TmpPath = URL.createObjectURL(e.target.files[0]);
     $('#Name_File').attr('value', fileName)
     $('#path').attr('value', TmpPath)
