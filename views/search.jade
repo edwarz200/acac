@@ -46,6 +46,8 @@ block content
                                     input.disable.button.btn.btn-danger.btn-block(type="button", onclick="eliminar(this)", value="Eliminar", title="Eliminar el acuerdo")
                                     input.item.i-b.v-top.ph9.p_25(id="acuerdo_id", type="hidden", value='#{ac.acuerdo_id}' name="acuerdo_id")
                                     input(type="hidden", name="_method", value="DELETE")
+				div.text-center
+					include pagination
                         //- // -cont++
             -else
                 -console.log(image1)

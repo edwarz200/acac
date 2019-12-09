@@ -19,6 +19,17 @@
     margin: auto
 }
 
+.b_card {
+    height: 450px;
+    overflow: hidden;
+    /* width: 101%; */
+    overflow-y: auto;
+}
+
+.art_card {
+    transform: scale(.991);
+}
+
 .text-10 {
     font-size: 10px;
 }
@@ -64,7 +75,7 @@
     transform: translate(0);
 }
 
-.contenedor{
+.contenedor {
     height: 0;
     overflow: hidden;
 }
@@ -97,39 +108,42 @@
     animation-fill-mode: forwards;
 }
 
-@keyframes animation{
-    0%{
+@keyframes animation {
+    0% {
         height: 0px
     }
-    100%{
+    100% {
         height: 410px
     }
 }
-@keyframes animationd{
-    0%{
+
+@keyframes animationd {
+    0% {
         height: 410px
     }
-    100%{
+    100% {
         height: 0px
     }
 }
 
-@keyframes animation_span{
-    0%{
+@keyframes animation_span {
+    0% {
         height: 0px
     }
-    100%{
+    100% {
         height: 60px
     }
 }
-@keyframes animation_spand{
-    0%{
+
+@keyframes animation_spand {
+    0% {
         height: 60px
     }
-    100%{
+    100% {
         height: 0px
     }
 }
+
 
 /* html { background-color: #1D1D1D; }
 

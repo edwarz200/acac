@@ -4,7 +4,6 @@ var conn = require('./RAM-connection'),
     Cexec = require('./conexec'),
     db = require('./db.js'),
     excel = require('../controllers/convertidor_excel_a_json'),
-    fse = require('fs-extra'),
     ACModel = () => {}
 
 // if (conn == "null") {
@@ -13,21 +12,15 @@ var conn = require('./RAM-connection'),
 //     console.log('aqui en otro lado')
 // }
 
-ACModel.cccc = (archivo, xlsx, cb) => {
-    //Ubicación temporal del archivo que se sube
-    let tempPath = '"'+ archivo + '"',
-        // El nombre del archivo subido
-        fileName = xlsx,
-        // Nueva ubicación
-        newLocation = './uploads/' + fileName
-
-    fse.copy(archivo, newLocation, cb)
-}
+// ACModel.cccc = (cb) => {}
 
 ACModel.Converter_xlsx_json = (libro) => {
-    var workbook = excel.readFile(libro);
-    var sheet_name_list = workbook.SheetNames;
-    var cb = excel.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]])
+    let cb = new Array()
+    var workbook = excel.readFile(libro)
+    var sheet_name_list = workbook.SheetNames
+    for (let i = 0; i < sheet_name_list.length; i++) {
+        cb[i] = excel.utils.sheet_to_json(workbook.Sheets[sheet_name_list[i]])
+    }
     return cb
 }
 

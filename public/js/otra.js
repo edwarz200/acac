@@ -67,6 +67,7 @@ function A_C(value) {
     }
 }
 
+
 function myfun(h_d, h, e, s, b, c, elim_d) {
     var select = 0,
         selectS = 0,
@@ -133,20 +134,39 @@ $(".custom-file-input").on("change", function(e) {
     var TmpPath = URL.createObjectURL(e.target.files[0]);
     $('#Name_File').attr('value', fileName)
     $('#path').attr('value', TmpPath)
-    
-    // var reader = new FileReader();
-    // reader.readAsArrayBuffer(e.target.files[0]);
-    // console.log(reader)
-    // reader.onload = function(e) {
-    //     var data = new Uint8Array(reader.result);
-    //     var wb = XLSX.read(data,{type:'array'});
-    //     for(var i=0;i<wb.SheetNames.length;i++){
-    //         var htmlstr = XLSX.write(wb,{sheet: wb.SheetNames[i],type:'binary',bookType:'html'});
-    //         $('#pre_image')[0].innerHTML += htmlstr;
-    //     }
-    // }
+    var preInput = $('#preInput')
+    console.log(preInput)
+    if (preInput.val() == "si") {
+        $('#pre_image')[0].innerHTML = ""
+    } else {
+        preInput.attr("value", "si")
+    }
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(e.target.files[0]);
+    console.log(reader)
+    reader.onload = function(e) {
+        var data = new Uint8Array(reader.result);
+        var wb = XLSX.read(data, { type: 'array' });
+        for (var i = 0; i < wb.SheetNames.length; i++) {
+            var htmlstr = XLSX.write(wb, { sheet: wb.SheetNames[i], type: 'binary', bookType: 'html' });
+            console.log(htmlstr)
+            $('#pre_image')[0].innerHTML += htmlstr;
+        }
+    }
 
+    $('#getExcel').removeClass('btn-outline-secondary')
+    $('#getExcel').addClass('btn-success')
+    $('#block_pre').addClass('b_card')
 });
+
+// $("getExcel").on("click", function() {
+//     $.ajax({
+//         url: '/xlsx/upload',
+//         succes: function(name) {
+//             console.log(name)
+//         }
+//     })
+// })
 
 $("#inputSearch").keypress(function(event) {
     if (event.which == 13) {

@@ -1,0 +1,88 @@
+blockquote.b_card#pre_image(class="blockquote mb-0")
+    script.  
+        function convert_fecha(date) {
+            var fechaString = Date(date).substr(6),
+                fechaActual = new Date(parseInt(fechaString)),
+                mes = fechaActual.getMonth() + 1,
+                dia = fechaActual.getDate(),
+                anio = fechaActual.getFullYear(),
+                fecha = dia + "/" + mes + "/" + anio
+            return fecha
+        }
+    article.item.art_card
+        -if(data!="")
+            //- -console.log("entro"+data)
+            table.table.table-striped
+                tr.row
+                    th.col-1(scope="col") Id
+                    th.col-3(scope="col") N° de acuerdo
+                    th.col-3(scope="col") Fecha
+                    th.col-5(scope="col") Detalle
+                    //-var cont=0
+                    -var num = 0
+                    -var nro_acuerdo,fecha,detalle
+                    -each ac in data[0]
+                        -if(ac.__EMPTY_1 != undefined){
+                            -if(num==0){  
+                                - nro_acuerdo = ac.__EMPTY_1
+                                - fecha = ac.__EMPTY_3
+                                - detalle = ac.__EMPTY_5
+                            -}else{
+                                -date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 );
+                                -var dia = date.getDate();
+                                -var mes = date.getMonth();
+                                -var yyy = date.getFullYear();
+                                -var fecha_d =  yyy + '-' + mes + '-' + dia;
+                                tr.row
+                                    th.col-1.text-truncate.text-12(scope="row")
+                                        td.col-3 #{ac.__EMPTY_1}
+                                        td.col-3 #{fecha_d}
+                                        td.col-5
+                                            article.w-100.h-100.textarea(disabled).bg-transparent
+                                                p #{ac.__EMPTY_5}
+                            -}
+                            -num = 1
+                        -}else{ var key = Object.keys(ac)
+                            -for(var i=0; i < key.length; i++){
+                                -if(key[i].toLowerCase().indexOf('acu') != -1){ nro_acuerdo = key[i]
+                                -} if(key[i].toLowerCase().indexOf('fe') != -1){ fecha = key[i]
+                                -} if(key[i].toLowerCase().indexOf('deta') != -1){ detalle = key[i]}
+                            -}
+                           - return false
+                        -}
+                        //- -console.log(fecha)
+                    -for(let i=num; i < data.length; i++){
+                        -each ac in data[i]
+                            -date = new  Date ((ac[fecha] - ( 25567  +  1 )) * 86400 * 1000 );
+                            -var dia = date.getDate();
+                            -var mes = date.getMonth();
+                            -var yyy = date.getFullYear();
+                            -var fecha_d =  yyy + '-' + mes + '-' + dia;
+                            tr.row
+                                th.col-1.text-truncate.text-12(scope="row")
+                                    td.col-3 #{ac[nro_acuerdo]}
+                                    td.col-3 #{fecha_d}
+                                    td.col-5
+                                        article.w-100.h-100.textarea(disabled).bg-transparent
+                                            p #{ac[detalle]}
+                    -}
+                div.text-center
+                include pagination
+                //- // -cont++
+        - else
+            table.table.table-striped
+                tr
+                    th(scope="col") Id
+                    th(scope="col") N° de acuerdo
+                    th(scope="col") Fecha
+                    th(scope="col") Detalle
+                    th(scope="col", colspan="2")
+                        div.input-group
+                        input#add.btn.btn-block.btn-success(onclick="A_C('agregar')",type="button", value="Agregar", title="Agregar acuerdos")
+                    tr
+                        th.no_selection.text-black-50(scope="row") Sin informacion
+                        td.no_selection.text-black-50 Sin informacion
+                        td.no_selection.text-black-50 Sin informacion
+                        td.no_selection.text-black-50 Sin informacion 
+                        td.no_selection
+            a#btnsync.button.btn.btn-info.btn-block(href="/C_R:Syncfirebase") Sincronizar con la nube

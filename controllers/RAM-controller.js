@@ -2,7 +2,8 @@
 
 var ACModel = require('../models/RAM-model'),
     db = require('../models/db.js'),
-    // algoliasearch = require('algoliasearch'),
+    formidable = require('formidable'),
+    fse = require('fs-extra'),
     // algolia = require('../models/RAM-Algolia'),
     ACController = () => {}
 ACController.push = (req, res, next) => {
@@ -69,24 +70,60 @@ ACController.update = (req, res, next) => {
 }
 
 ACController.formxlsx = (req, res, next) => {
-    res.render("Copiar_guardar", { op: 'elim_d' })
+    let locals = {
+        title: 'Subir datos desde excel',
+        footer: 'El archivo de excel sera copiado y los datos introducidos en la ',
+        cite: 'Base de Datos',
+        op: 'elim_d',
+        pre: "no"
+    }
+    res.render("Copiar_guardar", locals)
 }
 
 ACController.xls_CandS = (req, res, next) => {
-    let Name = req.body.Name_File,
-        path = req.body.path
-        // a_path = path.split("/")
-    // path = a_path[a_path.length - 1]
-    
-    ACModel.cccc(path, Name,(err)=>{
-        if(err){
-            console.log(err) 
-        }else{
-            console.log('El archivo  se subió con éxito :)')
-            console.log(ACModel.Converter_xlsx_json(path))
-        }
-    })
-    res.render("Copiar_guardar", { op: 'elim_d' })
+    let form = new formidable.IncomingForm()
+    form
+        .parse(req, function(err, fields, files) {})
+        .on('progress', function(bytesReceived, bytesExpected) {
+            let percentCompleted = (bytesReceived / bytesExpected) * 100
+            console.log(percentCompleted.toFixed(2))
+        })
+        .on('error', function(err) {
+            console.log(err)
+        })
+        .on('end', function(fields, files) {
+            //Ubicacion temporal del archivo que se sube
+            let tempPath = this.openedFiles[0].path,
+                // El nombre del archivo subido
+                fileName = this.openedFiles[0].name,
+                // Nueva ubicacion
+                newLocation = './upload/' + fileName
+                // console.log(this.openedFiles[0])
+            fse.copy(tempPath, newLocation, function(err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log('El archivo  se subio con exito :)')
+                    var array = ACModel.Converter_xlsx_json("C:/Users/edwar/Documents/ordenado/Carpetas/ejj/Ac_804004425/upload/" + fileName),
+                        cont = 0
+                    for (let i = 0; i < array.length; i++) {
+                        cont = array[i].length + cont
+                        console.log(array[i])
+                    }
+                    console.log(array, cont)
+                    let locals = {
+                        title: 'Subir datos desde excel',
+                        footer: 'El archivo de excel ha sido copiado y los datos introducidos en la ',
+                        cite: 'Base de Datos',
+                        data_save: "Datos guardados con exito",
+                        op: 'elim_d',
+                        data: array,
+                        pre: "si"
+                    }
+                    res.render("Copiar_guardar", locals)
+                }
+            })
+        })
 }
 
 ACController.getAll = (req, res, next) => {

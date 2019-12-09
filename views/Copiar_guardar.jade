@@ -1,10 +1,10 @@
 extends layout
 
 block content
-    div.mb-3
+    include alerts
     section.container
-        form.mb-3(action="/xlsx/upload" method="post")
-            h1 Subir datos desde excel
+        include header
+        form.mb-3(action="/xlsx/upload" enctype="multipart/form-data" method="post")
             div(class="input-group")
                 div(class="custom-file")
                     input(type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" name="upload" required)
@@ -12,12 +12,18 @@ block content
                     input(type="text" id="path" name="path" value="" hidden)
                     label(class="custom-file-label" for="inputGroupFile04") Selecciona un archivo
                 div(class="input-group-append")
-                    input(class="btn btn-outline-secondary" type="submit" )
+                    input(class="btn btn-outline-secondary" type="submit" id="getExcel" value="Enviar" )
         div.container
             div(class="card")
                 div(class="card-header") Previsialización
                 div(class="card-body")
-                    blockquote(class="blockquote mb-0")
-                    footer(class="blockquote-footer") Someone famous in 
-                        cite(title="Source Title") Source Title
+                    input(type="hidden" value="#{pre}" id="preInput")
+                    -if(pre == "si"){
+                        include index_excel
+                    -}else{
+                        blockquote#block_pre(class="blockquote mb-0")
+                            div#pre_image
+                    -}
+                    footer(class="blockquote-footer")= footer
+                        cite(title="Source Title")= cite
     include footer
