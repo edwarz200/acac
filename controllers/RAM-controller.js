@@ -74,7 +74,7 @@ ACController.formxlsx = (req, res, next) => {
         title: 'Subir datos desde excel',
         footer: 'El archivo de excel sera copiado y los datos introducidos en la ',
         cite: 'Base de Datos',
-        op: 'elim_d',
+        op: 'search',
         pre: "no"
     }
     res.render("Copiar_guardar", locals)
@@ -104,19 +104,49 @@ ACController.xls_CandS = (req, res, next) => {
                     console.log(err)
                 } else {
                     console.log('El archivo  se subio con exito :)')
-                    var array = ACModel.Converter_xlsx_json("C:/Users/edwar/Documents/ordenado/Carpetas/ejj/Ac_804004425/upload/" + fileName),
+                    var array = ACModel.Converter_xlsx_json("./upload/" + fileName),
                         cont = 0
                     for (let i = 0; i < array.length; i++) {
-                        cont = array[i].length + cont
                         console.log(array[i])
+                        var nro_acuerdo,fecha,detalle
+                        array[i].forEach(function(ac) {
+                            console.log(ac.__EMPTY_1)
+                            if(ac.__EMPTY_1 != undefined){
+                                if(cont==0){  
+                                     nro_acuerdo = ac.__EMPTY_1
+                                     fecha = ac.__EMPTY_3
+                                     detalle = ac.__EMPTY_5
+                                }else{
+                                    let nro_acuerdo_d = ac.__EMPTY_1,
+                                        date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
+                                        dia = date.getDate(),
+                                        mes = date.getMonth(),
+                                        yyy = date.getFullYear(),
+                                        fecha_d =  yyy + '-' + mes + '-' + dia,
+                                        detalle_d = ac.__EMPTY_5
+                                }
+                            } else{ 
+                                var key = Object.keys(ac)
+                                for(var i=0; i < key.length; i++){
+                                    if(key[i].toLowerCase().indexOf('acu') != -1)
+                                        nro_acuerdo = key[i]
+                                    if(key[i].toLowerCase().indexOf('fe') != -1)
+                                        fecha = key[i]
+                                    if(key[i].toLowerCase().indexOf('deta') != -1) 
+                                        detalle = key[i]
+                                }
+                                return false
+                            }
+                        })
+                        cont = array[i].length + cont
                     }
-                    console.log(array, cont)
+                    console.log(cont)
                     let locals = {
                         title: 'Subir datos desde excel',
                         footer: 'El archivo de excel ha sido copiado y los datos introducidos en la ',
                         cite: 'Base de Datos',
                         data_save: "Datos guardados con exito",
-                        op: 'elim_d',
+                        op: 'search',
                         data: array,
                         pre: "si"
                     }
