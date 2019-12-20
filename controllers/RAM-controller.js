@@ -81,6 +81,8 @@ ACController.formxlsx = (req, res, next) => {
 }
 
 ACController.xls_CandS = (req, res, next) => {
+    var letras_a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+        letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     let form = new formidable.IncomingForm()
     form
         .parse(req, function(err, fields, files) {})
@@ -103,6 +105,28 @@ ACController.xls_CandS = (req, res, next) => {
                 if (err) {
                     console.log(err)
                 } else {
+                    var _id = {}
+                    ACModel.getAll((err,rows)=>{
+                        if(err)
+                            console.log(err)
+                        else{
+                            for (var i = 0; i < 1; i++) {
+                                // console.log('entro')
+                                var m_id = "AC_"
+                                for (var j = 0; j < 3; j++) {
+                                    m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
+                                }
+                                rows.forEach((ram) => {
+                                    while (m_id == ram.acuerdo_id) {
+                                        for (var k = 0; k < 1; k++) {
+                                            m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
+                                        }
+                                    }
+                                })
+                                _id[i] = m_id
+                            }
+                        }
+                    })
                     console.log('El archivo  se subio con exito :)')
                     var array = ACModel.Converter_xlsx_json("./upload/" + fileName),
                         cont = 0
@@ -110,12 +134,13 @@ ACController.xls_CandS = (req, res, next) => {
                         console.log(array[i])
                         var nro_acuerdo,fecha,detalle
                         array[i].forEach(function(ac) {
-                            console.log(ac.__EMPTY_1)
                             if(ac.__EMPTY_1 != undefined){
+                                console.log(ac.__EMPTY_5)
                                 if(cont==0){  
                                      nro_acuerdo = ac.__EMPTY_1
                                      fecha = ac.__EMPTY_3
                                      detalle = ac.__EMPTY_5
+                                     // console.log(cont)
                                 }else{
                                     let nro_acuerdo_d = ac.__EMPTY_1,
                                         date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
@@ -125,20 +150,32 @@ ACController.xls_CandS = (req, res, next) => {
                                         fecha_d =  yyy + '-' + mes + '-' + dia,
                                         detalle_d = ac.__EMPTY_5
                                 }
-                            } else{ 
+                            } else if(nro_acuerdo != undefined){
+                                    let nro_acuerdo_d = ac.nro_acuerdo,
+                                        date = new  Date ((ac.fecha - ( 25567  +  1 )) * 86400 * 1000 ),
+                                        dia = date.getDate(),
+                                        mes = date.getMonth(),
+                                        yyy = date.getFullYear(),
+                                        fecha_d =  yyy + '-' + mes + '-' + dia,
+                                        detalle_d = ac.detalle
+                                        console.log("numero_acuerdo" + nro_acuerdo_d + "Fecha" + fecha_d + "detalle" + detalle_d)
+                            }else{ 
                                 var key = Object.keys(ac)
                                 for(var i=0; i < key.length; i++){
                                     if(key[i].toLowerCase().indexOf('acu') != -1)
+                                        // console.log(key[i])
                                         nro_acuerdo = key[i]
                                     if(key[i].toLowerCase().indexOf('fe') != -1)
+                                        // console.log(key[i])
                                         fecha = key[i]
                                     if(key[i].toLowerCase().indexOf('deta') != -1) 
+                                        // console.log(key[i])
                                         detalle = key[i]
                                 }
                                 return false
                             }
+                            cont = 1 + cont
                         })
-                        cont = array[i].length + cont
                     }
                     console.log(cont)
                     let locals = {
@@ -148,6 +185,7 @@ ACController.xls_CandS = (req, res, next) => {
                         data_save: "Datos guardados con exito",
                         op: 'search',
                         data: array,
+                        id: _id,
                         pre: "si"
                     }
                     res.render("Copiar_guardar", locals)
