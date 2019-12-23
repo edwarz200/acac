@@ -80,9 +80,35 @@ ACController.formxlsx = (req, res, next) => {
     res.render("Copiar_guardar", locals)
 }
 
-ACController.xls_CandS = (req, res, next) => {
+function myid(num){
     var letras_a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    var _id = {}
+    ACModel.getAll((err,rows)=>{
+        if(err)
+            console.log(err)
+        else{
+            for (var i = 0; i < num; i++) {
+                // console.log('entro')
+                var m_id = "AC_"
+                for (var j = 0; j < 3; j++) {
+                    m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
+                }
+                rows.forEach((ram) => {
+                    while (m_id == ram.acuerdo_id) {
+                        for (var k = 0; k < 1; k++) {
+                            m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
+                        }
+                    }
+                })
+                _id[i] = m_id
+                return _id[i]
+            }
+        }
+    })
+}
+
+ACController.xls_CandS = (req, res, next) => {
     let form = new formidable.IncomingForm()
     form
         .parse(req, function(err, fields, files) {})
@@ -105,28 +131,7 @@ ACController.xls_CandS = (req, res, next) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    var _id = {}
-                    ACModel.getAll((err,rows)=>{
-                        if(err)
-                            console.log(err)
-                        else{
-                            for (var i = 0; i < 1; i++) {
-                                // console.log('entro')
-                                var m_id = "AC_"
-                                for (var j = 0; j < 3; j++) {
-                                    m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
-                                }
-                                rows.forEach((ram) => {
-                                    while (m_id == ram.acuerdo_id) {
-                                        for (var k = 0; k < 1; k++) {
-                                            m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
-                                        }
-                                    }
-                                })
-                                _id[i] = m_id
-                            }
-                        }
-                    })
+                    
                     console.log('El archivo  se subio con exito :)')
                     var array = ACModel.Converter_xlsx_json("./upload/" + fileName),
                         cont = 0
@@ -142,23 +147,26 @@ ACController.xls_CandS = (req, res, next) => {
                                      detalle = ac.__EMPTY_5
                                      // console.log(cont)
                                 }else{
+                                    console.log(myid(1))
                                     let nro_acuerdo_d = ac.__EMPTY_1,
                                         date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
+                                        dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"],
                                         dia = date.getDate(),
                                         mes = date.getMonth(),
                                         yyy = date.getFullYear(),
                                         fecha_d =  yyy + '-' + mes + '-' + dia,
+                                        dia_semana = dias[date.getUTCDay()] + "-" + dia,
                                         detalle_d = ac.__EMPTY_5
                                 }
                             } else if(nro_acuerdo != undefined){
-                                    let nro_acuerdo_d = ac.nro_acuerdo,
-                                        date = new  Date ((ac.fecha - ( 25567  +  1 )) * 86400 * 1000 ),
+                                    let nro_acuerdo_d = ac[nro_acuerdo],
+                                        date = new  Date ((ac[fecha] - ( 25567  +  1 )) * 86400 * 1000 ),
                                         dia = date.getDate(),
                                         mes = date.getMonth(),
                                         yyy = date.getFullYear(),
                                         fecha_d =  yyy + '-' + mes + '-' + dia,
-                                        detalle_d = ac.detalle
-                                        console.log("numero_acuerdo" + nro_acuerdo_d + "Fecha" + fecha_d + "detalle" + detalle_d)
+                                        detalle_d = ac[detalle]
+                                        console.log("numero_acuerdo " + nro_acuerdo_d + " Fecha " + fecha_d + " detalle " + detalle_d)
                             }else{ 
                                 var key = Object.keys(ac)
                                 for(var i=0; i < key.length; i++){
@@ -185,7 +193,7 @@ ACController.xls_CandS = (req, res, next) => {
                         data_save: "Datos guardados con exito",
                         op: 'search',
                         data: array,
-                        id: _id,
+                        // id: _id,
                         pre: "si"
                     }
                     res.render("Copiar_guardar", locals)
