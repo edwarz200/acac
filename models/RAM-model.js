@@ -38,6 +38,13 @@ ACModel.getAll = (perPage, page, cb) => {
 
     // conn.ref('RAM/').once('value', cb)
 }
+ACModel.getAll2 = (cb) => {
+    db
+        .find({})
+        .exec(cb)
+
+    // conn.ref('RAM/').once('value', cb)
+}
 
 ACModel.getAllFirebase = (cb) => {
     // db.find(cb).sort({fecha: 1, nro_acuerdo: 1} )

@@ -80,34 +80,6 @@ ACController.formxlsx = (req, res, next) => {
     res.render("Copiar_guardar", locals)
 }
 
-function myid(num){
-    var letras_a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
-        letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    var _id = {}
-    ACModel.getAll((err,rows)=>{
-        if(err)
-            console.log(err)
-        else{
-            for (var i = 0; i < num; i++) {
-                // console.log('entro')
-                var m_id = "AC_"
-                for (var j = 0; j < 3; j++) {
-                    m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
-                }
-                rows.forEach((ram) => {
-                    while (m_id == ram.acuerdo_id) {
-                        for (var k = 0; k < 1; k++) {
-                            m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
-                        }
-                    }
-                })
-                _id[i] = m_id
-                return _id[i]
-            }
-        }
-    })
-}
-
 ACController.xls_CandS = (req, res, next) => {
     let form = new formidable.IncomingForm()
     form
@@ -131,7 +103,8 @@ ACController.xls_CandS = (req, res, next) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    
+                    var ooooo = my__id(1)
+                    console.log("mi idddddd "+ooooo)
                     console.log('El archivo  se subio con exito :)')
                     var array = ACModel.Converter_xlsx_json("./upload/" + fileName),
                         cont = 0
@@ -147,7 +120,6 @@ ACController.xls_CandS = (req, res, next) => {
                                      detalle = ac.__EMPTY_5
                                      // console.log(cont)
                                 }else{
-                                    console.log(myid(1))
                                     let nro_acuerdo_d = ac.__EMPTY_1,
                                         date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
                                         dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"],
@@ -723,6 +695,36 @@ function dia_sem(search) {
     } else if (i = 0) {
 
     }
+}
+
+async function my__id(num){
+    var letras_a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+        letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    var id
+    await ACModel.getAll2((err,rows)=>{
+        console.log("entro " + num)
+        if(err)
+            console.log(err)
+        else{
+            for (var i = 0; i < num; i++) {
+                // console.log('entro')
+                var m_id = "AC_"
+                for (var j = 0; j < 3; j++) {
+                    m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
+                }
+                rows.forEach((ram) => {
+                    while (m_id == ram.acuerdo_id) {
+                        for (var k = 0; k < 1; k++) {
+                            m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
+                        }
+                    }
+                })
+                id = m_id
+            }
+        }
+        console.log("uno " + id)
+        return id
+    })
 }
 
 module.exports = ACController
