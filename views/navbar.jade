@@ -17,13 +17,14 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
             option.dropdown-item.text-light(value="Deshabilitar") Deshabilitado para eliminar
             option.dropdown-item.text-light(value="Habilitar") Habilitar eliminar
             //- option.dropdown-item.text-light(value="Varios") Eliminar Varios
-      input#disables(type="hidden",value="#{disables}")
-      input#op(type="hidden",value="#{op}")
-      input#nums(type="hidden", value="#{nums}")
-      input#searchlista(type="hidden",value="#{input}")
-      input#syncInput(type="hidden",value="#{sync}")
-      input#buttons(type="hidden",value="#{buttons}")
-      input#cont(type="hidden",value="#{cont}")
+    input#disables(type="hidden",value="#{disables}")
+    input#op(type="hidden",value="#{op}")
+    input#nums(type="hidden", value="#{nums}")
+    input#searchlista(type="hidden",value="#{input}")
+    input#syncInput(type="hidden",value="#{sync}")
+    input#buttons(type="hidden",value="#{buttons}")
+    input#cont(type="hidden",value="#{cont}")
+    input(type="hidden", id="numspan", value="#{numspan}")
     select.dropdown.btn.btn-secondary.dropdown-toggle.float-left(title="Servidor local", name="C_R", id="C_R",)
           option.dropdown-item.text-white(value="#") Opciones adicionales
           option.dropdown-item.text-white(value="Syncfirebase") Sincronizar con firebase

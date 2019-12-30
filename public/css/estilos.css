@@ -6,6 +6,10 @@
     overflow: hidden;
     font-size: 15px
 }
+#divnav{
+    position: relative;
+    height: 55px
+}
 
 .no_selection {
     -webkit-user-select: none;
@@ -131,13 +135,13 @@
         height: 0px
     }
     100% {
-        height: 60px
+        height: 78px
     }
 }
 
 @keyframes animation_spand {
     0% {
-        height: 60px
+        height: 78px
     }
     100% {
         height: 0px

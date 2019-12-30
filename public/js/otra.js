@@ -5,7 +5,13 @@ window.onload = () => {
         search = document.getElementById("List_search"),
         syncInput = document.getElementById("syncInput"),
         span_fecha = document.getElementById("span_fecha"),
-        numspan = 0
+        body = document.querySelector("body"),
+        numspan = document.getElementById("numspan").value,
+        spanclose = document.getElementById("spanclose"),
+        navbar = document.getElementById("navbar")
+    if(spanclose!=null){
+        spanclose.setAttribute('hidden', false)
+    }
     lista.onchange = () => {
         redirect("S_U_E", lista.value)
     }
@@ -25,6 +31,7 @@ window.onload = () => {
             }
         }
     }
+
 }
 
 function Numeros(string) { //Solo numeros
