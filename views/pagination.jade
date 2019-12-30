@@ -1,4 +1,5 @@
 -if(pages){
+	-console.log(current + " =current " + " =pages " + pages)
 	nav(aria-label="Page navigation example")
 		ul.pagination.justify-content-center
 			-if(current == 1){
@@ -62,8 +63,8 @@
 							-}else{
 								li.page-item.rounded-circle(title="Pagina numero #{i}")
 									a.page-link(href="/#{elims}a_pag=#{i}")= i
-							-} 
-						-}	
+							-}
+						-}
 					-}else if (parseInt(current)+5>pages-1) {
 						-for(var i = pages-6; i <= pages ; i++){
 							-if(i == current){
@@ -72,8 +73,8 @@
 							-}else{
 								li.page-item.rounded-circle(title="Pagina numero #{i}")
 									a.page-link(href="/#{elims}a_pag=#{i}")= i
-							-} 
-						-}	
+							-}
+						-}
 					-} else{
 						-for(var i = current; i < pages && cont < 5 ; i++){
 							-if(i == current){
@@ -116,6 +117,7 @@
 					a.page-link(href="/#{elims}a_pag=#{pages}", aria-label="Next") &raquo; &raquo;
 			-}
 			-if(current == pages){
+					-console.log("entrooo" + counted)
 				-if(counted > 10){
 						li.page-item.rounded-circle(title="Primera pagina")
 							a.page-link(href="/#{elims}a_pag=1", aria-label="Previous") &laquo; &laquo;

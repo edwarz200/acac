@@ -1,4 +1,5 @@
-nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
+div#divnav
+nav.fixed-top.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
   a.navbar-brand(href='/') RAM
   button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
@@ -16,6 +17,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
           select.dropdown.btn.btn-secondary.dropdown-toggle.selectE(title="Opciones para eliminar", name="S_E", id="S_E")
             option.dropdown-item.text-light(value="Deshabilitar") Deshabilitado para eliminar
             option.dropdown-item.text-light(value="Habilitar") Habilitar eliminar
+            option#Elimtodos.dropdown-item.text-white-50.bg-secondary(value="Todos" disabled) Eliminar Todo
             //- option.dropdown-item.text-light(value="Varios") Eliminar Varios
     input#disables(type="hidden",value="#{disables}")
     input#op(type="hidden",value="#{op}")
@@ -25,6 +27,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
     input#buttons(type="hidden",value="#{buttons}")
     input#cont(type="hidden",value="#{cont}")
     input(type="hidden", id="numspan", value="#{numspan}")
+    input(type="hidden", id="disabled", value="#{dis}")
     select.dropdown.btn.btn-secondary.dropdown-toggle.float-left(title="Servidor local", name="C_R", id="C_R",)
           option.dropdown-item.text-white(value="#") Opciones adicionales
           option.dropdown-item.text-white(value="Syncfirebase") Sincronizar con firebase

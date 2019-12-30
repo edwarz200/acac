@@ -289,13 +289,18 @@ ACModel.push = (idmongo, id, data, cb) => {
     })
 }
 
-ACModel.delete = (idmongo, id, cb) => {
+ACModel.delete = (cant,idmongo, id, cb) => {
     conn.ref('RAM/').child(id).remove((err) => {
         if (err) {
             console.log('error al eliminar el dato con el id: ' + id + ' en la nube')
         }
     })
-    db.findByIdAndDelete(idmongo, cb)
+    if(cant=="Todos"){
+        db.remove().exec(cb)
+    }else{
+        db.findByIdAndDelete(idmongo, cb)
+    }
+
 }
 
 ACModel.close_reset = (id, cb) => Cexec.conexec(id, cb)

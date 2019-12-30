@@ -8,12 +8,23 @@ window.onload = () => {
         body = document.querySelector("body"),
         numspan = document.getElementById("numspan").value,
         spanclose = document.getElementById("spanclose"),
-        navbar = document.getElementById("navbar")
+        navbar = document.getElementById("navbar"),
+        disabled = document.getElementById("disabled")
     if(spanclose!=null){
         spanclose.setAttribute('hidden', false)
     }
+    if(disabled=="enabled"){
+        document.getElementById("Elimtodos").removeAttr('disabled', false)
+        document.getElementById("Elimtodos").setAttribute('enabled', false)
+    }
     lista.onchange = () => {
-        redirect("S_U_E", lista.value)
+        if(lista.value=="Todos"){
+            var deleteOk = confirm('¿Estas seguro que quieres eliminar todos los Datos?')
+            return (deleteOk) ? redirect("S_U_E", lista.value) : false
+        }else{
+            redirect("S_U_E", lista.value)
+        }
+        
     }
     lista2.onchange = () => {
         redirect("C_R", lista2.value)

@@ -179,7 +179,8 @@ ACController.getAll = (req, res, next) => {
         letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
         cant = req.params.cant,
         m_idarray = [],
-        elim = ""
+        elim = "",
+        disabled = "disabled"
 
     let H_D = req.params.value,
         perPage = 10,
@@ -232,6 +233,7 @@ ACController.getAll = (req, res, next) => {
                 }
                 if (String(H_D).indexOf(":Habilitar") != -1) {
                     c = 'false'
+                    disabled="enabled"
                     elim = "S_U_E:Habilitar/"
                     if (H_D == ":Habilitar2")
                         save = "Acuerdo eliminado con exito"
@@ -261,10 +263,12 @@ ACController.getAll = (req, res, next) => {
                                         disables: c,
                                         data: rows,
                                         elims: elim,
+                                        dis: disabled,
                                         previous: parseInt(page) - 1,
                                         current: page,
                                         next: parseInt(page) + 1,
                                         pages: Math.ceil(count / perPage),
+                                        counted: count,
                                         data_save: save,
                                         data_id: m_idarray,
                                         buttons: 'si'
@@ -277,10 +281,12 @@ ACController.getAll = (req, res, next) => {
                                         disables: c,
                                         data: rows,
                                         elims: elim,
+                                        dis: disabled,
                                         previous: parseInt(page) - 1,
                                         current: page,
                                         next: parseInt(page) + 1,
                                         pages: Math.ceil(count / perPage),
+                                        counted: count,
                                         data_save: save,
                                         data_id: m_idarray,
                                         buttons: 'no'
@@ -298,10 +304,12 @@ ACController.getAll = (req, res, next) => {
                         disables: c,
                         data: rows,
                         elims: elim,
+                        dis: disabled,
                         previous: parseInt(page) - 1,
                         current: page,
                         next: parseInt(page) + 1,
                         pages: Math.ceil(count / perPage),
+                        counted: count,
                         data_save: save,
                         data_id: m_idarray,
                         buttons: 'si'
