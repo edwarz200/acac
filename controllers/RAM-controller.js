@@ -6,6 +6,7 @@ var ACModel = require('../models/RAM-model'),
     fse = require('fs-extra'),
     // algolia = require('../models/RAM-Algolia'),
     ACController = () => {}
+
 ACController.push = (req, res, next) => {
     var date = req.body.fecha,
         arrayfecha = date.split("-"),
@@ -105,94 +106,143 @@ ACController.xls_CandS = (req, res, next) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    var id={}
                     ACModel.getAll2((err,rows)=>{
+                        var id = new Array(),dat = new Array(), load = "cargado no"
                         console.log('El archivo  se subio con exito :)')
                         var array = ACModel.Converter_xlsx_json("./upload/" + fileName),
                             cont = 0
-                        for (let i = 0; i < array.length; i++) {
+                        var jj = 0
+                        // console.log(dat)
+                        for (var i = 0; i < array.length; i++) {
                             console.log(array[i])
-                            var nro_acuerdo,fecha,detalle
                             array[i].forEach(function(ac) {
-                                if(ac.__EMPTY_1 != undefined){
-                                    console.log(ac.__EMPTY_5)
-                                    if(cont==0){  
-                                         nro_acuerdo = ac.__EMPTY_1
-                                         fecha = ac.__EMPTY_3
-                                         detalle = ac.__EMPTY_5
+                                var key = Object.keys(ac)
+                                if (key != undefined) {
+                                    if(cont==0){
+                                        console.log(cont)
                                          // console.log(cont)
-                                    }else{
-                                        let nro_acuerdo_d = ac.__EMPTY_1,
-                                            date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
-                                            dia = date.getDate(),
-                                            mes = date.getMonth(),
-                                            yyy = date.getFullYear(),
-                                            fecha_d =  yyy + '-' + mes + '-' + dia,
-                                            dia_semana = dias[date.getUTCDay()] + "-" + dia,
-                                            detalle_d = ac.__EMPTY_5
-                                            id[i] = my__id(1,err,rows)
-                                            AC = {
-                                                acuerdo_id: id[i],
-                                                nro_acuerdo: req.body.nro_acuerdo,
-                                                fecha: date,
-                                                dia_sem: dia_semana,
-                                                detalle: req.body.detalle
-                                            }
-                                            ACModel.push(idmongo, id, AC, (err, l) => {
-                                                if (err) {
-                                                    let locals = {
-                                                        title: `Error al salvar el registro con el id: ${AC.acuerdo_id}`,
-                                                        description: "Error de Sintaxis",
-                                                        error: err
-                                                    }
-                                                    res.render('error', locals)
-                                                } else {
-                                                    res.redirect("/S_U_E:guardado")
+                                    }else if(cont>0){
+                                        // console.log(cont)
+                                        // console.log(dat)
+                                        if (key.includes('__EMPTY_1')) {
+                                            var nro_acuerdo_d = ac.__EMPTY_1,
+                                                date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
+                                                dia = date.getDate(),
+                                                mes = date.getMonth(),
+                                                yyy = date.getFullYear(),
+                                                fecha_d,
+                                                dia_semana = dias[date.getUTCDay()] + "-" + dia,
+                                                detalle_d = ac.__EMPTY_5
+                                                if( mes < 10 && dia < 10){
+                                                    fecha_d =  yyy + '-0' + mes + "-0"+ dia ;
+                                                }else if( mes < 10){
+                                                    fecha_d =  yyy + '-0' + mes + "-"+ dia ;
+                                                }else if (dia < 10 ){
+                                                    fecha_d =  yyy + '-' + mes + "-0"+ dia ;
+                                                }else{
+                                                    fecha_d =  yyy + '-' + mes + "-"+ dia ;
                                                 }
-                                            })
+                                            id[jj] = my__id(1,err,rows)
+                                            for (var i = 0; i < id.length; i++) {
+                                                while (id[jj] == id[i] && i < jj) {
+                                                    var id__1 = id[i]
+                                                    id[jj] = my__id(1,err,rows)
+                                                }
+                                            }
+                                        }else if(key.includes('__EMPTY_2')){
+                                            var nro_acuerdo_d = ac.__EMPTY,
+                                                date = new  Date ((ac.__EMPTY_2 - ( 25567  +  1 )) * 86400 * 1000 ),
+                                                dia = date.getDate(),
+                                                mes = date.getMonth(),
+                                                yyy = date.getFullYear(),
+                                                fecha_d,
+                                                dia_semana = dias[date.getUTCDay()] + "-" + dia,
+                                                detalle_d = ac.__EMPTY_4
+                                                if( mes < 10 && dia < 10){
+                                                    fecha_d =  yyy + '-0' + mes + "-0"+ dia ;
+                                                }else if( mes < 10){
+                                                    fecha_d =  yyy + '-0' + mes + "-"+ dia ;
+                                                }else if (dia < 10 ){
+                                                    fecha_d =  yyy + '-' + mes + "-0"+ dia ;
+                                                }else{
+                                                    fecha_d =  yyy + '-' + mes + "-"+ dia ;
+                                                }
+                                            id[jj] = my__id(1,err,rows)
+                                            for (var i = 0; i < id.length; i++) {
+                                                while (id[jj] == id[i] && i < jj) {
+                                                    var id__1 = id[i]
+                                                    id[jj] = my__id(1,err,rows)
+                                                }
+                                            }
+                                        }else{
+                                            var nro_acuerdo_d = ac[key[0]],
+                                                date = new  Date ((ac[key[1]] - ( 25567  +  1 )) * 86400 * 1000 ),
+                                                dia = date.getDate(),
+                                                mes = date.getMonth(),
+                                                yyy = date.getFullYear(),
+                                                fecha_d,
+                                                dia_semana = dias[date.getUTCDay()] + "-" + dia,
+                                                detalle_d = ac[key[2]]
+                                                if( mes < 10 && dia < 10){
+                                                    fecha_d =  yyy + '-0' + mes + "-0"+ dia ;
+                                                }else if( mes < 10){
+                                                    fecha_d =  yyy + '-0' + mes + "-"+ dia ;
+                                                }else if (dia < 10 ){
+                                                    fecha_d =  yyy + '-' + mes + "-0"+ dia ;
+                                                }else{
+                                                    fecha_d =  yyy + '-' + mes + "-"+ dia ;
+                                                }
+                                            id[jj] = my__id(1,err,rows)
+                                            for (var i = 0; i < id.length; i++) {
+                                                while (id[jj] == id[i] && i < jj) {
+                                                    var id__1 = id[i]
+                                                    id[jj] = my__id(1,err,rows)
+                                                }
+                                            }
+                                        }
+                                        let idmongo = id[jj],
+                                            AC = {
+                                                acuerdo_id: id[jj],
+                                                nro_acuerdo: nro_acuerdo_d,
+                                                fecha: fecha_d,
+                                                dia_sem: dia_semana,
+                                                detalle: detalle_d
+                                            }
+                                        dat[jj] = AC
+                                        ACModel.push(idmongo, id[jj], AC, (err, l) => {
+                                            if (err) {
+                                                let locals = {
+                                                    title: `Error al salvar el registro con el id: ${AC.acuerdo_id}`,
+                                                    description: "Error de Sintaxis",
+                                                    error: err
+                                                }
+                                                res.render('error', locals)
+                                            } else {
+                                                console.log("Guardado")
+                                                // res.redirect("/S_U_E:guardado")
+                                            }
+                                        })
                                     }
-                                } else if(nro_acuerdo != undefined){
-                                        let nro_acuerdo_d = ac[nro_acuerdo],
-                                            date = new  Date ((ac[fecha] - ( 25567  +  1 )) * 86400 * 1000 ),
-                                            dia = date.getDate(),
-                                            mes = date.getMonth(),
-                                            yyy = date.getFullYear(),
-                                            fecha_d =  yyy + '-' + mes + '-' + dia,
-                                            dia_semana = dias[date.getUTCDay()] + "-" + dia,
-                                            detalle_d = ac[detalle]
-                                            // console.log("numero_acuerdo " + nro_acuerdo_d + " Fecha " + fecha_d + " detalle " + detalle_d)
-                                            id[i] = my__id(1,err,rows)
-                                }else{ 
-                                    var key = Object.keys(ac)
-                                    for(var i=0; i < key.length; i++){
-                                        if(key[i].toLowerCase().indexOf('acu') != -1)
-                                            // console.log(key[i])
-                                            nro_acuerdo = key[i]
-                                        if(key[i].toLowerCase().indexOf('fe') != -1)
-                                            // console.log(key[i])
-                                            fecha = key[i]
-                                        if(key[i].toLowerCase().indexOf('deta') != -1) 
-                                            // console.log(key[i])
-                                            detalle = key[i]
-                                    }
-                                    id[i] = my__id(1,err,rows)
-                                    return false
                                 }
+                                // console.log(dat[jj])
                                 cont = 1 + cont
+                                jj++
                             })
+                                // console.log("id "+id)
                         }
-                        console.log(cont)
                         let locals = {
                             title: 'Subir datos desde excel',
                             footer: 'El archivo de excel ha sido copiado y los datos introducidos en la ',
                             cite: 'Base de Datos',
                             data_save: "Datos guardados con exito",
                             op: 'search',
-                            data: array,
-                            // id: _id,
+                            data: dat,
                             pre: "si"
                         }
-                        res.render("Copiar_guardar", locals)
+                        if(load=="si2")
+                            res.redirect("/")
+                        else
+                            res.render("Copiar_guardar", locals)
                     })
                 }
             })
@@ -217,6 +267,7 @@ ACController.getAll = (req, res, next) => {
     ACModel.getAll(perPage, page, (err, rows) => {
         // navigator.onLine ? console.log('online') : console.log('offline');
         db.countDocuments((err, count) => {
+            console.log("rows " + count)
             if (err) {
                 let locals = {
                     title: `Error al obtener los datos`,
@@ -225,7 +276,6 @@ ACController.getAll = (req, res, next) => {
                 }
                 res.render('error', locals)
             } else {
-                console.log(count)
                 for (var i = 0; i < 1; i++) {
                     // console.log('entro')
                     var m_id = "AC_"
@@ -290,6 +340,7 @@ ACController.getAll = (req, res, next) => {
                                         current: page,
                                         next: parseInt(page) + 1,
                                         pages: Math.ceil(count / perPage),
+                                        counted: count,
                                         data_save: save,
                                         data_id: m_idarray,
                                         buttons: 'si'
@@ -306,6 +357,7 @@ ACController.getAll = (req, res, next) => {
                                         current: page,
                                         next: parseInt(page) + 1,
                                         pages: Math.ceil(count / perPage),
+                                        counted: count,
                                         data_save: save,
                                         data_id: m_idarray,
                                         buttons: 'no'
@@ -327,6 +379,7 @@ ACController.getAll = (req, res, next) => {
                         current: page,
                         next: parseInt(page) + 1,
                         pages: Math.ceil(count / perPage),
+                        counted: count,
                         data_save: save,
                         data_id: m_idarray,
                         buttons: 'si'
@@ -520,7 +573,6 @@ ACController.searchForm = (req, res, next) => {
     } else {
         res.render('search', locals)
     }
-
 }
 
 ACController.error404 = (req, res, next) => {
@@ -733,7 +785,7 @@ function my__id(num,err,rows){
         for (var i = 0; i < num; i++) {
             // console.log('entro')
             var m_id = "AC_"
-            for (var j = 0; j < 3; j++) {
+            for (var j = 0; j < 6; j++) {
                 m_id += letras_a[Math.round(Math.random() * 25)] + Math.round(Math.random() * 9) + letras_A[Math.round(Math.random() * 25)]
             }
             rows.forEach((ram) => {
@@ -746,7 +798,7 @@ function my__id(num,err,rows){
             id = m_id
         }
     }
-    console.log("uno " + id)
+    // console.log("uno " + id)
     return id
 }
 

@@ -1,5 +1,5 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
-  a.navbar-brand(href='#') RAM
+  a.navbar-brand(href='/') RAM
   button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
   #navbarSupportedContent.collapse.navbar-collapse
@@ -16,7 +16,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.text-light
           select.dropdown.btn.btn-secondary.dropdown-toggle.selectE(title="Opciones para eliminar", name="S_E", id="S_E")
             option.dropdown-item.text-light(value="Deshabilitar") Deshabilitado para eliminar
             option.dropdown-item.text-light(value="Habilitar") Habilitar eliminar
-            option.dropdown-item.text-light(value="Varios") Eliminar Varios
+            //- option.dropdown-item.text-light(value="Varios") Eliminar Varios
       input#disables(type="hidden",value="#{disables}")
       input#op(type="hidden",value="#{op}")
       input#nums(type="hidden", value="#{nums}")

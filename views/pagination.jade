@@ -2,7 +2,12 @@
 	nav(aria-label="Page navigation example")
 		ul.pagination.justify-content-center
 			-if(current == 1){
-				-if(pages > 9){
+				-if (counted<=10) {
+					-for(var i = 1; i <= pages && i < 10 ; i++){
+						li.page-item.rounded-circle.disabled
+							a.page-link= i
+					-}
+				-}else if(pages > 9){
 					-for(var i = 1; i <= pages && i < 5 ; i++){
 						-if(i == current){
 							li.page-item.rounded-circle.disabled
@@ -36,11 +41,11 @@
 						-}
 
 					-}
+					li.page-item.rounded-circle(title="Siguiente pagina")
+						a.page-link(href="/#{elims}a_pag=#{next}") &raquo;
+					li.page-item.rounded-circle(title="Ultima pagina")
+						a.page-link(href="/#{elims}a_pag=#{pages}", aria-label="Next") &raquo; &raquo;
 				-}
-				li.page-item.rounded-circle(title="Siguiente pagina")
-					a.page-link(href="/#{elims}a_pag=#{next}") &raquo;
-				li.page-item.rounded-circle(title="Ultima pagina")
-					a.page-link(href="/#{elims}a_pag=#{pages}", aria-label="Next") &raquo; &raquo;
 			-}
 			-if(current > 1 && current < pages){
 				li.page-item.rounded-circle(title="Primera pagina")
@@ -93,7 +98,7 @@
 
 						-}
 					-}
-				-} else { 
+				-} else {
 					-for(var i = 1; i <= pages; i++){
 						-if(i == current){
 							li.page-item.rounded-circle.disabled
@@ -111,43 +116,45 @@
 					a.page-link(href="/#{elims}a_pag=#{pages}", aria-label="Next") &raquo; &raquo;
 			-}
 			-if(current == pages){
-				li.page-item.rounded-circle(title="Primera pagina")
-					a.page-link(href="/#{elims}a_pag=1", aria-label="Previous") &laquo; &laquo;
-				li.page-item.rounded-circle(title="Pagina anterior")
-					a.page-link(href="/#{elims}a_pag=#{previous}", aria-label="Previous") &laquo;
-				-if(pages > 9){
-					-for(var i = 1; i <= pages && i < 5 ; i++){
-						-if(i == current){
-							li.page-item.rounded-circle.disabled
-								a.page-link= i
-						-}else{
-							li.page-item.rounded-circle(title="Pagina numero #{i}")
-								a.page-link(href="/#{elims}a_pag=#{i}")= i
-						-}
+				-if(counted > 10){
+						li.page-item.rounded-circle(title="Primera pagina")
+							a.page-link(href="/#{elims}a_pag=1", aria-label="Previous") &laquo; &laquo;
+						li.page-item.rounded-circle(title="Pagina anterior")
+							a.page-link(href="/#{elims}a_pag=#{previous}", aria-label="Previous") &laquo;
+					-if(pages > 9){
+						-for(var i = 1; i <= pages && i < 5 ; i++){
+							-if(i == current){
+								li.page-item.rounded-circle.disabled
+									a.page-link= i
+							-}else{
+								li.page-item.rounded-circle(title="Pagina numero #{i}")
+									a.page-link(href="/#{elims}a_pag=#{i}")= i
+							-}
 
-					-}
-					li.page-item.rounded-circle.disabled
-						a.page-link ...
-					-for(var i = pages-1; i <= pages ; i++){
-						-if(i == current){
-							li.page-item.rounded-circle.disabled
-								a.page-link= i
-						-}else{
-							li.page-item.rounded-circle(title="Pagina numero #{i}")
-								a.page-link(href="/#{elims}a_pag=#{i}")= i
 						-}
+						li.page-item.rounded-circle.disabled
+							a.page-link ...
+						-for(var i = pages-1; i <= pages ; i++){
+							-if(i == current){
+								li.page-item.rounded-circle.disabled
+									a.page-link= i
+							-}else{
+								li.page-item.rounded-circle(title="Pagina numero #{i}")
+									a.page-link(href="/#{elims}a_pag=#{i}")= i
+							-}
 
-					-}
-				-} else{
-					-for(var i = 1; i <= pages && i < 10 ; i++){
-						-if(i == current){
-							li.page-item.rounded-circle.disabled
-								a.page-link= i
-						-}else{
-							li.page-item.rounded-circle(title="Pagina numero #{i}")
-								a.page-link(href="/#{elims}a_pag=#{i}")= i
 						-}
+					-} else{
+						-for(var i = 1; i <= pages && i < 10 ; i++){
+							-if(i == current){
+								li.page-item.rounded-circle.disabled
+									a.page-link= i
+							-}else{
+								li.page-item.rounded-circle(title="Pagina numero #{i}")
+									a.page-link(href="/#{elims}a_pag=#{i}")= i
+							-}
 
+						-}
 					-}
 				-}
 			-}
