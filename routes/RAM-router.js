@@ -17,6 +17,7 @@ router
     // .get('/save:guardado', ACController.getAll)
     // .post('/save:guardado', ACController.getAll)
     .get('/editar/:_id', ACController.getOne)
+    .get('/elim_t:cant', ACController.delete)
     .put('/actualizar/:_id', ACController.update)
     .delete('/eliminar/:acuerdo_id', ACController.delete)
     .use(ACController.error404)

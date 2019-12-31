@@ -9,22 +9,30 @@ window.onload = () => {
         numspan = document.getElementById("numspan").value,
         spanclose = document.getElementById("spanclose"),
         navbar = document.getElementById("navbar"),
-        disabled = document.getElementById("disabled")
-    if(spanclose!=null){
+        disabled = document.getElementById("disabled").value
+    if (spanclose != null) {
         spanclose.setAttribute('hidden', false)
     }
-    if(disabled=="enabled"){
-        document.getElementById("Elimtodos").removeAttr('disabled', false)
-        document.getElementById("Elimtodos").setAttribute('enabled', false)
+    if (disabled == "enabled") {
+        console.log("entro")
+        document.getElementById("Elimtodos").removeAttribute('disabled', false)
+        document.getElementById("Elimtodos").classList.remove('text-white-50')
+        document.getElementById("Elimtodos").classList.remove('bg-secondary')
+        document.getElementById("Elimtodos").classList.add('text-white')
+    } else {
+        document.getElementById("Elimtodos").setAttribute('disabled', false)
+        document.getElementById("Elimtodos").classList.add('text-white-50')
+        document.getElementById("Elimtodos").classList.add('bg-secondary')
+        document.getElementById("Elimtodos").classList.remove('text-white')
     }
     lista.onchange = () => {
-        if(lista.value=="Todos"){
+        if (lista.value == "Todos") {
             var deleteOk = confirm('¿Estas seguro que quieres eliminar todos los Datos?')
-            return (deleteOk) ? redirect("S_U_E", lista.value) : false
-        }else{
+            return (deleteOk) ? redirect("elim_t", lista.value) : false
+        } else {
             redirect("S_U_E", lista.value)
         }
-        
+
     }
     lista2.onchange = () => {
         redirect("C_R", lista2.value)

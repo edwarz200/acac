@@ -289,16 +289,17 @@ ACModel.push = (idmongo, id, data, cb) => {
     })
 }
 
-ACModel.delete = (cant,idmongo, id, cb) => {
-    conn.ref('RAM/').child(id).remove((err) => {
-        if (err) {
-            console.log('error al eliminar el dato con el id: ' + id + ' en la nube')
-        }
-    })
-    if(cant=="Todos"){
+ACModel.delete = (cant, idmongo, id, cb) => {
+    if (cant == "Todos") {
         db.remove().exec(cb)
-    }else{
+        conn.ref('RAM/').remove()
+    } else {
         db.findByIdAndDelete(idmongo, cb)
+        conn.ref('RAM/').child(id).remove((err) => {
+            if (err) {
+                console.log('error al eliminar el dato con el id: ' + id + ' en la nube')
+            }
+        })
     }
 
 }

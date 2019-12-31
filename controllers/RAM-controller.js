@@ -104,52 +104,52 @@ ACController.xls_CandS = (req, res, next) => {
                     console.log(err)
                 } else {
                     var ooooo = my__id(1)
-                    console.log("mi idddddd "+ooooo)
+                    console.log("mi idddddd " + ooooo)
                     console.log('El archivo  se subio con exito :)')
                     var array = ACModel.Converter_xlsx_json("./upload/" + fileName),
                         cont = 0
                     for (let i = 0; i < array.length; i++) {
                         console.log(array[i])
-                        var nro_acuerdo,fecha,detalle
+                        var nro_acuerdo, fecha, detalle
                         array[i].forEach(function(ac) {
-                            if(ac.__EMPTY_1 != undefined){
+                            if (ac.__EMPTY_1 != undefined) {
                                 console.log(ac.__EMPTY_5)
-                                if(cont==0){  
-                                     nro_acuerdo = ac.__EMPTY_1
-                                     fecha = ac.__EMPTY_3
-                                     detalle = ac.__EMPTY_5
-                                     // console.log(cont)
-                                }else{
+                                if (cont == 0) {
+                                    nro_acuerdo = ac.__EMPTY_1
+                                    fecha = ac.__EMPTY_3
+                                    detalle = ac.__EMPTY_5
+                                        // console.log(cont)
+                                } else {
                                     let nro_acuerdo_d = ac.__EMPTY_1,
-                                        date = new  Date ((ac.__EMPTY_3 - ( 25567  +  1 )) * 86400 * 1000 ),
+                                        date = new Date((ac.__EMPTY_3 - (25567 + 1)) * 86400 * 1000),
                                         dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"],
                                         dia = date.getDate(),
                                         mes = date.getMonth(),
                                         yyy = date.getFullYear(),
-                                        fecha_d =  yyy + '-' + mes + '-' + dia,
+                                        fecha_d = yyy + '-' + mes + '-' + dia,
                                         dia_semana = dias[date.getUTCDay()] + "-" + dia,
                                         detalle_d = ac.__EMPTY_5
                                 }
-                            } else if(nro_acuerdo != undefined){
-                                    let nro_acuerdo_d = ac[nro_acuerdo],
-                                        date = new  Date ((ac[fecha] - ( 25567  +  1 )) * 86400 * 1000 ),
-                                        dia = date.getDate(),
-                                        mes = date.getMonth(),
-                                        yyy = date.getFullYear(),
-                                        fecha_d =  yyy + '-' + mes + '-' + dia,
-                                        detalle_d = ac[detalle]
-                                        console.log("numero_acuerdo " + nro_acuerdo_d + " Fecha " + fecha_d + " detalle " + detalle_d)
-                            }else{ 
+                            } else if (nro_acuerdo != undefined) {
+                                let nro_acuerdo_d = ac[nro_acuerdo],
+                                    date = new Date((ac[fecha] - (25567 + 1)) * 86400 * 1000),
+                                    dia = date.getDate(),
+                                    mes = date.getMonth(),
+                                    yyy = date.getFullYear(),
+                                    fecha_d = yyy + '-' + mes + '-' + dia,
+                                    detalle_d = ac[detalle]
+                                console.log("numero_acuerdo " + nro_acuerdo_d + " Fecha " + fecha_d + " detalle " + detalle_d)
+                            } else {
                                 var key = Object.keys(ac)
-                                for(var i=0; i < key.length; i++){
-                                    if(key[i].toLowerCase().indexOf('acu') != -1)
-                                        // console.log(key[i])
+                                for (var i = 0; i < key.length; i++) {
+                                    if (key[i].toLowerCase().indexOf('acu') != -1)
+                                    // console.log(key[i])
                                         nro_acuerdo = key[i]
-                                    if(key[i].toLowerCase().indexOf('fe') != -1)
-                                        // console.log(key[i])
+                                    if (key[i].toLowerCase().indexOf('fe') != -1)
+                                    // console.log(key[i])
                                         fecha = key[i]
-                                    if(key[i].toLowerCase().indexOf('deta') != -1) 
-                                        // console.log(key[i])
+                                    if (key[i].toLowerCase().indexOf('deta') != -1)
+                                    // console.log(key[i])
                                         detalle = key[i]
                                 }
                                 return false
@@ -233,7 +233,7 @@ ACController.getAll = (req, res, next) => {
                 }
                 if (String(H_D).indexOf(":Habilitar") != -1) {
                     c = 'false'
-                    disabled="enabled"
+                    disabled = "enabled"
                     elim = "S_U_E:Habilitar/"
                     if (H_D == ":Habilitar2")
                         save = "Acuerdo eliminado con exito"
@@ -427,7 +427,7 @@ ACController.getOne = (req, res, next) => {
 ACController.searchForm = (req, res, next) => {
     let sr = req.params.value_search,
         search1, search2, arrayDeCadenas,
-        dejar="span2",
+        dejar = "span2",
         numspan = 0,
         dias = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"],
         search = "",
@@ -453,11 +453,11 @@ ACController.searchForm = (req, res, next) => {
         search_ant = search
         search1 = search
     } else if (po == ":Fecha del acuerdo") {
-        dejar="span"
+        dejar = "span"
         numspan = 1
         search_ant = search
         search1 = dia_sem(search_ant)
-        console.log("search1 "+search1)
+        console.log("search1 " + search1)
         if (search1.length == 3) {
             num = 5
         } else if (search1.includes("=")) {
@@ -530,11 +530,20 @@ ACController.error404 = (req, res, next) => {
 }
 
 ACController.delete = (req, res, next) => {
-    let idmongo = req.params.acuerdo_id,
+    console.log(req.params.cant)
+    let idmongo, id, cant
+    if (req.params.cant == ":Todos") {
+        console.log("todos")
+        cant = "Todos"
+    } else {
+        idmongo = req.params.acuerdo_id
         id = req.body.acuerdo_id
-        // console.log(acuerdo_id)
+        cant = 1
 
-    ACModel.delete(idmongo, id, function(err) {
+    }
+    // console.log(acuerdo_id)
+
+    ACModel.delete(cant, idmongo, id, function(err) {
         if (err) {
             let locals = {
                 title: `Error al eliminar el registro con el id: ${id}`,
@@ -715,14 +724,14 @@ function dia_sem(search) {
     }
 }
 
-function my__id(num,rows){
+function my__id(num, rows) {
     var letras_a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
         letras_A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     var id
     console.log("entro " + num)
-    if(err)
+    if (err)
         console.log(err)
-    else{
+    else {
         for (var i = 0; i < num; i++) {
             // console.log('entro')
             var m_id = "AC_"
